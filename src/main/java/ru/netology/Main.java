@@ -51,13 +51,13 @@ public class Main {
             for (int i = 0; i < textQuantity; i++) {
                 switch (regex) {
                     case "a":
-                        str = aText.poll(15, TimeUnit.SECONDS);
+                        str = aText.take();
                         break;
                     case "b":
-                        str = bText.poll(15, TimeUnit.SECONDS);
+                        str = bText.take();
                         break;
                     case "c":
-                        str = cText.poll(15, TimeUnit.SECONDS);
+                        str = cText.take();
                         break;
                 }
                 if (currentMax < letterRepit(regex, str)) result = str;
