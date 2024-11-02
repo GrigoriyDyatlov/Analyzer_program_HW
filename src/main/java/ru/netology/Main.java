@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.concurrent.*;
 
 public class Main {
-    public static final int textQuantity = 10_00;
+    public static final int textQuantity = 10_000;
     public static ArrayBlockingQueue<String> aText = new ArrayBlockingQueue<>(100);
     public static ArrayBlockingQueue<String> bText = new ArrayBlockingQueue<>(100);
     public static ArrayBlockingQueue<String> cText = new ArrayBlockingQueue<>(100);
@@ -24,8 +24,7 @@ public class Main {
                     throw new RuntimeException(e);
                 }
             }
-        });
-        Thread.sleep(1000);
+        }).start();
 
         final ExecutorService threadPoll = Executors.newFixedThreadPool(3);
         List<Future> taskList = new ArrayList<>();
@@ -37,7 +36,7 @@ public class Main {
         final Future<String> future3 = threadPoll.submit(logic("c"));
         taskList.add(future3);
 
-        for (Future<String> future: taskList) {
+        for (Future<String> future : taskList) {
             System.out.println(future.get());
         }
 
@@ -49,7 +48,7 @@ public class Main {
             String result = null;
             String str = null;
             int currentMax = 0;
-            for (int i = 0; i < textQuantity - 1; i++) {
+            for (int i = 0; i < textQuantity; i++) {
                 switch (regex) {
                     case "a":
                         str = aText.poll(15, TimeUnit.SECONDS);
@@ -81,12 +80,3 @@ public class Main {
         return text.toString();
     }
 }
-//        Callable<String> logicA = () -> {
-//            String result = null;
-//            int currentMax = 0;
-//            for (int i = 0; i < textQuantity; i++) {
-//                String str = aText.take();
-//                if (currentMax < letterRepit("a", str)) result = str;
-//            }
-//            return result;
-//        };
